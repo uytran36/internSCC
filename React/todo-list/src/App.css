@@ -4,3 +4,10 @@ body {
 .App {
   text-align: center;
 }
+.title { 
+  color: rgba(175, 47, 47, 0.15);
+  font-size: 100px;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}

@@ -1,20 +1,8 @@
-.TodoItem {
+.TodoItem, .TodoItem-completed {
     font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
     font-weight: 300;
     font-size: 24px;
     color: #4d4d4d;
-    border: 1px solid black;
-    width: 500px;
-    height:50px;
-    margin: auto auto;
-    display: grid;
-    grid-template-columns: 50px auto 50px;
-}
-
-.TodoItem-completed {
-    font-weight: 300;
-    font-size: 24px;
-    text-decoration: line-through;
     border: 1px solid black;
     width: 500px;
     height:50px;
@@ -66,4 +54,13 @@ img {
     width: 445px;
     height:45px;
     margin: auto auto;  
+}
+
+.TodoItem .delIcon, .TodoItem-completed .delIcon {
+    display: none;
+}
+
+.TodoItem:hover .delIcon, .TodoItem-completed:hover .delIcon { 
+    display: block;
+    cursor: pointer;
 }

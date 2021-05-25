@@ -35,26 +35,33 @@ class App extends Component {
     this.clearCompleted = this.clearCompleted.bind(this);
   }
 
-  //to check complete function
+  //to mark complete function
+  findIndex(todoItems, item) {
+    for(var i = 0; i < todoItems.length; i++) {
+      if(todoItems[i].title === item.title) {
+        return i;
+      }
+    }
+  }
   onItemClicked(item) {
     return() => {
       const isCompleted = item.isCompleted;
-      const { todoItems } = this.state;
-      const index = todoItems.indexOf(item);
-      this.setState({ todoItems: [
+      var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
+      const index = this.findIndex(todoItems, item);
+      var newState = { todoItems: [
         ...todoItems.slice(0, index),
-        { 
-          ...item, 
-          isCompleted: !isCompleted 
-        },
+        {
+          ...item,
+          isCompleted: !isCompleted
+        }, 
         ...todoItems.slice(index + 1)
-      ]}, () => {
-        window.localStorage.clear();
-        window.localStorage.setItem('listItem', JSON.stringify(this.state));
-      });
+      ]};
+      window.localStorage.clear();
+      window.localStorage.setItem('listItem', JSON.stringify(newState));
+      this.setState(newState);
     }
   }
-
+  
   //double click to edit text
   onDoubleClick(item) {
     return() => {
@@ -68,50 +75,59 @@ class App extends Component {
           isCompleted: item.isCompleted
         },
         ...todoItems.slice(index + 1)
-      ]}, () => {
-        window.localStorage.clear();
-        window.localStorage.setItem('listItem', JSON.stringify(this.state));
-      });
+      ]});
     }
   }
 
   //save text afer edit (click outside textbox)
   onBlur(event, item) {
-    //return() => {
-      var text = event.target.value;
-      const isCompleted = item.isCompleted;
-      const { todoItems } = this.state;
-      const index = todoItems.indexOf(item);
-      this.setState({ todoItems: [
+    var text = event.target.value;
+    const isCompleted = item.isCompleted;
+    var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
+    const index = this.findIndex(todoItems, item);
+    var newState = { todoItems: [
+      ...todoItems.slice(0, index),
+      {
+        title: text,
+        isEditing: false,
+        isCompleted: isCompleted
+      }, 
+      ...todoItems.slice(index + 1)
+    ]};
+    window.localStorage.clear();
+    window.localStorage.setItem('listItem', JSON.stringify(newState));
+    this.setState(newState);
+  }
+  
+  //delete todo 
+  onDelete(item) {
+    return() => {
+      var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
+      const index = this.findIndex(todoItems, item);
+      var newState = { todoItems: [
         ...todoItems.slice(0, index),
-        { 
-          title: text,
-          isEditing: false, 
-          isCompleted: isCompleted 
-        },
         ...todoItems.slice(index + 1)
-      ]}, () => {
-        window.localStorage.clear();
-        window.localStorage.setItem('listItem', JSON.stringify(this.state));
-      });
-    //}
+      ]};
+      window.localStorage.clear();
+      window.localStorage.setItem('listItem', JSON.stringify(newState));
+      this.setState(newState);
+    }
   }
 
   //add todo
   onPressEnter(event) {
     if(event.key === 'Enter') {
-        var { todoItems } = this.state;
-        
-        todoItems.push({
-            title: event.target.value, 
-            isEditing: false,
-            isCompleted: false
-        });
-        this.setState({todoItems: todoItems}, () => {
-          window.localStorage.clear();
-          window.localStorage.setItem('listItem', JSON.stringify(this.state));
-        });
-        event.target.value = "";
+      var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
+      todoItems.push({
+          title: event.target.value, 
+          isEditing: false,
+          isCompleted: false
+      });
+      this.setState({todoItems: todoItems}, () => {
+        window.localStorage.clear();
+        window.localStorage.setItem('listItem', JSON.stringify(this.state));
+      });
+      event.target.value = "";
     }        
   } 
 
@@ -213,7 +229,7 @@ class App extends Component {
     var numItem = this.countActive();
     return (
       <div className="App"> 
-        <h1>todos</h1>
+        <p className="title">todos</p>
         <TodoInput onKeyUp={this.onPressEnter} chooseAll={this.chooseAll}/>
         {
           todoItems.map((item, index) => 
@@ -222,7 +238,8 @@ class App extends Component {
             item={item} 
             onClick={this.onItemClicked(item)}
             onDoubleClick={this.onDoubleClick(item)}
-            onBlur={(event) => this.onBlur(event, item)}/>)
+            onBlur={(event) => this.onBlur(event, item)}
+            onDelete={this.onDelete(item)}/>)
         }
         <TodoFilter 
         numItem={numItem}

@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import './TodoItem.css'
 import uncheck from '../img/uncheck.png';
 import check from '../img/check.png';
+import del from '../img/delete.png';
+
 class TodoItem extends Component {
     render() {
-        const {item, onClick, onDoubleClick, onBlur} = this.props;
+        const {item, onClick, onDoubleClick, onBlur, onDelete} = this.props;
         let className = "TodoItem";
         var url = uncheck;
+        var urlDel = del;
         if(item.isCompleted === true) {
             className += "-completed";
             url = check;
@@ -23,7 +26,9 @@ class TodoItem extends Component {
                 <input type="text" 
                 className="edit" 
                 defaultValue={item.title} 
-                onBlur={onBlur}></input>
+                onBlur={onBlur}>
+                </input>    
+                <img className="delIcon" src={urlDel} alt="" onClick={onDelete} />
             </div>
         );        
     }
