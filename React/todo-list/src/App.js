@@ -36,30 +36,28 @@ class App extends Component {
   }
 
   //to mark complete function
-  findIndex(todoItems, item) {
+  findIndex = (todoItems, item) => {
     for(var i = 0; i < todoItems.length; i++) {
       if(todoItems[i].title === item.title) {
         return i;
       }
     }
   }
-  onItemClicked(item) {
-    return() => {
-      const isCompleted = item.isCompleted;
-      var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
-      const index = this.findIndex(todoItems, item);
-      var newState = { todoItems: [
-        ...todoItems.slice(0, index),
-        {
-          ...item,
-          isCompleted: !isCompleted
-        }, 
-        ...todoItems.slice(index + 1)
-      ]};
-      window.localStorage.clear();
-      window.localStorage.setItem('listItem', JSON.stringify(newState));
-      this.setState(newState);
-    }
+  onItemClicked = (item) => {
+    const isCompleted = item.isCompleted;
+    var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
+    const index = this.findIndex(todoItems, item);
+    var newState = { todoItems: [
+      ...todoItems.slice(0, index),
+      {
+        ...item,
+        isCompleted: !isCompleted
+      }, 
+      ...todoItems.slice(index + 1)
+    ]};
+    window.localStorage.clear();
+    window.localStorage.setItem('listItem', JSON.stringify(newState));
+    this.setState(newState); 
   }
   
   //double click to edit text
@@ -80,23 +78,25 @@ class App extends Component {
   }
 
   //save text afer edit (click outside textbox)
-  onBlur(event, item) {
-    var text = event.target.value;
-    const isCompleted = item.isCompleted;
-    var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
-    const index = this.findIndex(todoItems, item);
-    var newState = { todoItems: [
-      ...todoItems.slice(0, index),
-      {
-        title: text,
-        isEditing: false,
-        isCompleted: isCompleted
-      }, 
-      ...todoItems.slice(index + 1)
-    ]};
-    window.localStorage.clear();
-    window.localStorage.setItem('listItem', JSON.stringify(newState));
-    this.setState(newState);
+  onBlur = (event, item) => {
+    return() => {
+      var text = event.target.value;
+      const isCompleted = item.isCompleted;
+      var { todoItems } = JSON.parse(window.localStorage.getItem('listItem'));
+      const index = this.findIndex(todoItems, item);
+      var newState = { todoItems: [
+        ...todoItems.slice(0, index),
+        {
+          title: text,
+          isEditing: false,
+          isCompleted: isCompleted
+        }, 
+        ...todoItems.slice(index + 1)
+      ]};
+      window.localStorage.clear();
+      window.localStorage.setItem('listItem', JSON.stringify(newState));
+      this.setState(newState);
+    }
   }
   
   //delete todo 
@@ -236,7 +236,7 @@ class App extends Component {
             <TodoItem 
             key={index} 
             item={item} 
-            onClick={this.onItemClicked(item)}
+            onClick={() => this.onItemClicked(item)}
             onDoubleClick={this.onDoubleClick(item)}
             onBlur={(event) => this.onBlur(event, item)}
             onDelete={this.onDelete(item)}/>)
