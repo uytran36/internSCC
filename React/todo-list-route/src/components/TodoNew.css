@@ -1,0 +1,7 @@
+.edit-button, .delete {
+    cursor: pointer;
+}
+
+.addButton {
+    text-align: right;
+}
