@@ -1,0 +1,35 @@
+.TodoFilter {
+    width:500px;
+    margin: auto auto;
+    display: grid;
+    grid-template-columns: 100px auto 150px;
+    border: 1px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.TodoFilter .numItem { 
+    text-align: left;
+}
+
+.TodoFilter .filter { 
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.TodoFilter .filter button {
+    height:25px;
+    margin: auto 2px;
+}
+
+.clearCompleted {
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: right;
+}
+
+.clearCompleted:hover { 
+    text-decoration: underline;
+    cursor: pointer;
+}
