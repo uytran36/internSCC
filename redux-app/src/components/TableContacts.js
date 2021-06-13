@@ -21,7 +21,7 @@ function TableContacts(props) {
   useEffect(() => {
     props.fetchContactRequest();
     //setContacts(props.listContact.contacts);
-  }, [listContact]);
+  }, []);
 
   //when click logout button
   const onClickLogout = () => {

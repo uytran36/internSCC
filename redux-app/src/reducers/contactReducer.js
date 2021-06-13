@@ -7,8 +7,8 @@ const initialState = {
 const contactReducer = (state = initialState, action) => {
   switch(action.type) {
     case types.FETCH_CONTACT:
-      state.contacts = action.contacts;
-      return state;
+      const contacts = action.contacts;
+      return { ...state, contacts };
     case types.ADD_CONTACT:
       state = action.contacts;
       return state;
