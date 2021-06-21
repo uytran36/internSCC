@@ -1,19 +1,19 @@
-import * as React  from "react";
 import FormLogin from "../session/FormLogin";
 import FormRegister from "../session/FormRegister";
 import Home from "../contact/contact";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "antd/dist/antd.css";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
-function App(props: any) {
-  const token = window.localStorage.getItem("jwtToken");
+function App() {
+  const token = useSelector((state: any) => state.authReducer.token);
+
   return (
     <div className="App">
       <Router>
         <Switch>
           <Route exact path="/">
-            {token || props.isAuthenticated ? <Home /> : <FormLogin />}
+            {token !== null ? <Home /> : <FormLogin />}
           </Route>
           <Route exact path="/register">
             <FormRegister />

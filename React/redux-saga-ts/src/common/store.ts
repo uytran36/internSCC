@@ -4,6 +4,12 @@ import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "../saga/rootSaga";
 
+declare global {
+    interface Window {
+      __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 

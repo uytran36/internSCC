@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Modal, Form, Input } from "antd";
 import { addContact } from "../contactActions";
 
@@ -8,9 +8,12 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-function AddModal(props) {
+
+function AddModal(props: any) {
   const [isModalVisible, setIsModalVisible] = useState(props.visible);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
   const handleOk = () => {
     const ho_va_ten =  form.getFieldValue('ho_va_ten');
     const sdt = form.getFieldValue('sdt');
@@ -19,12 +22,13 @@ function AddModal(props) {
     
     if (ho_va_ten !== "" && sdt !== "" && gender !== "" && age !== "") {
       const contact = {
+        id: 0,
         ho_va_ten: ho_va_ten,
         sdt: sdt,
         gender: gender,
         age: age,
       };
-      props.addContact(contact);
+      dispatch(addContact(contact));
       let temp = props.getAddUpdate;
       temp(contact);
       setIsModalVisible(false);
@@ -94,12 +98,13 @@ function AddModal(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch: Function) => {
-  return {
-    addContact: (contact: Object) => {
-      dispatch(addContact(contact));
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch: Function) => {
+//   return {
+//     addContact: (contact: Contact) => {
+//       dispatch(addContact(contact));
+//     },
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(AddModal);
+// export default connect(null, mapDispatchToProps)(AddModal);
+export default AddModal;

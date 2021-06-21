@@ -1,18 +1,27 @@
 import { useState, useEffect } from "react";
-import { useSelector, connect } from "react-redux";
+import { useSelector, connect, useDispatch } from "react-redux";
 import TableContacts from "./contactManagement/TableContacts";
 import { fetchContact, delContact, searchContact } from "./contactActions";
 import AddModal from "./contactManagement/AddModal";
 import EditModal from "./contactManagement/EditModal";
 
+interface ContactInterface {
+  id: number;
+  ho_va_ten: string;
+  sdt: string;
+  gender: string;
+  age: number;
+}
+
 function Contact(props: any) {
   const [addVisible, setAddVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState<ContactInterface[]>([]);
   const [contactEdit, setContactEdit] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    props.fetchContact();
+    dispatch(fetchContact());
     // eslint-disable-next-line
   }, []);
 
@@ -34,9 +43,9 @@ function Contact(props: any) {
     setAddVisible(true);
   };
 
-  const getAddUpdate = (contact: any) => {
+  const getAddUpdate = (contact: ContactInterface) => {
     setContacts([
-      ...contacts.slice(0, contact.length),
+      ...contacts.slice(0, contacts.length),
       {
         id: contacts.length + 1,
         ho_va_ten: contact.ho_va_ten,
@@ -49,19 +58,19 @@ function Contact(props: any) {
   };
 
   //when search by name
-  const listContacts = useSelector((state) => state.contactReducer.contacts);
+  const listContacts = useSelector((state: any) => state.contactReducer.contacts);
 
-  const onSearch = (value) => {
-    props.searchContact(value, listContacts);
+  const onSearch = (value: string) => {
+    dispatch(searchContact(value, listContacts));
   };
 
   //when click edit
-  const onClickEdit = (contact) => {
+  const onClickEdit = (contact: ContactInterface) => {
     setContactEdit(contact);
     setEditVisible(true);
   };
 
-  const getEditUpdate = (contact) => {
+  const getEditUpdate = (contact: ContactInterface) => {
     let temp = props.listContact.contacts;
     const index = findIndex(temp, contact);
     setContacts([
@@ -84,16 +93,20 @@ function Contact(props: any) {
   };
 
   //when click delete
-  const findIndex = (listContact, contact) => {
+  const findIndex = (
+    listContact: Array<{ id: number }>,
+    contact: ContactInterface
+  ) => {
     for (let i = 0; i < listContact.length; i++) {
       if (listContact[i].id === contact.id) {
         return i;
       }
     }
+    return -1;
   };
 
-  const onClickDelete = (contact) => {
-    props.delContact(contact.id);
+  const onClickDelete = (contact: ContactInterface) => {
+    dispatch(delContact(contact.id));
     const temp = contacts;
 
     const index = findIndex(temp, contact);
@@ -127,25 +140,11 @@ function Contact(props: any) {
   );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
   return {
     listContact: state.contactReducer,
     listSearch: state.contactReducer,
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchContact: () => {
-      dispatch(fetchContact());
-    },
-    delContact: (id) => {
-      dispatch(delContact(id));
-    },
-    searchContact: (value, contacts) => {
-      dispatch(searchContact(value, contacts));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Contact);
+ export default connect(mapStateToProps, null)(Contact);

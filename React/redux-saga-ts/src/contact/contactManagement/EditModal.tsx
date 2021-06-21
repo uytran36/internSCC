@@ -8,7 +8,15 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-export function EditModal(props) {
+interface Contact {
+  id: number;
+  ho_va_ten: string;
+  sdt: string;
+  gender: string;
+  age: number;
+}
+
+export function EditModal(props: any) {
   const [isModalVisible, setIsModalVisible] = useState(props.visible);
   const [form] = Form.useForm();
 
@@ -116,7 +124,7 @@ export function EditModal(props) {
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
-    editContact: (contact: Object) => {
+    editContact: (contact: Contact) => {
       dispatch(editContact(contact));
     },
   };
