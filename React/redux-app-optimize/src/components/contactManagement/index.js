@@ -1,0 +1,154 @@
+import { React, useState, useEffect } from "react";
+import { useSelector, connect } from "react-redux";
+import TableContacts from "./TableContacts";
+
+import {
+  fetchContactRequest,
+  delContactRequest,
+  searchContactFunc,
+} from "../../actions/contacts";
+
+import AddModal from "./AddModal";
+import EditModal from "./EditModal";
+
+function ContactManagement(props) {
+  const [addVisible, setAddVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
+  const [contacts, setContacts] = useState([]);
+  const [contactEdit, setContactEdit] = useState({});
+
+  useEffect(() => {
+    props.fetchContactRequest();
+  }, []);
+
+  useEffect(() => {
+    setContacts(props.listContact.contacts);
+  }, [props.listContact.contacts]);
+
+  useEffect(() => {
+    setContacts(props.listSearch.searchContacts);
+  }, [props.listSearch.searchContacts]);
+
+  //when click logout button
+  const onClickLogout = () => {
+    window.localStorage.removeItem("jwtToken");
+  };
+
+  //when click add button
+  const onClickAdd = () => {
+    setAddVisible(true);
+  };
+
+  const getAddUpdate = (contact) => {
+    setContacts([
+      ...contacts.slice(0, contact.length),
+      {
+        id: contacts.length + 1,
+        ho_va_ten: contact.ho_va_ten,
+        sdt: contact.sdt,
+        gender: contact.gender,
+        age: contact.age,
+      },
+    ]);
+    setAddVisible(false);
+  };
+
+  //when search by name
+  const listContacts = useSelector((state) => state.contactReducer.contacts);
+
+  const onSearch = (value) => {
+    props.searchContactFunc(value, listContacts);
+  };
+
+  //when click edit
+  const onClickEdit = (contact) => {
+    setContactEdit(contact);
+    setEditVisible(true);
+  };
+
+  const getEditUpdate = (contact) => {
+    
+    let temp = props.listContact.contacts;
+    const index = findIndex(temp, contact);
+    setContacts([
+      ...temp.slice(0, index),
+      {
+        id: contact.id,
+        ho_va_ten: contact.ho_va_ten,
+        sdt: contact.sdt,
+        gender: contact.gender,
+        age: contact.age,
+      },
+      ...temp.slice(index + 1),
+    ]);
+    setEditVisible(false);
+  };
+
+  const setVisibleFalse = () => {
+    setEditVisible(false);
+    setAddVisible(false);
+  };
+
+  //when click delete
+  const findIndex = (listContact, contact) => {
+    for (let i = 0; i < listContact.length; i++) {
+      if (listContact[i].id === contact.id) {
+        return i;
+      }
+    }
+  };
+
+  const onClickDelete = (contact) => {
+    props.delContactRequest(contact.id);
+    const temp = contacts;
+
+    const index = findIndex(temp, contact);
+    setContacts([...contacts.slice(0, index), ...contacts.slice(index + 1)]);
+  };
+
+  return (
+    <div>
+      <TableContacts
+        onClickLogout={onClickLogout}
+        onClickAdd={onClickAdd}
+        onSearch={onSearch}
+        onClickEdit={onClickEdit}
+        onClickDelete={onClickDelete}
+        data={contacts}
+      />
+      <EditModal
+        key={editVisible}
+        visible={editVisible}
+        contactEdit={contactEdit}
+        getEditUpdate={getEditUpdate}
+        setVisibleFalse={setVisibleFalse}
+      />
+      <AddModal
+        key={addVisible}
+        visible={addVisible}
+        getAddUpdate={getAddUpdate}
+        setVisibleFalse={setVisibleFalse}
+      />
+    </div>
+  );
+}
+
+function mapStateToProps(state) {
+  return { listContact: state.contactReducer, listSearch: state.searchContactReducer };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchContactRequest: () => {
+      dispatch(fetchContactRequest());
+    },
+    delContactRequest: (id) => {
+      dispatch(delContactRequest(id));
+    },
+    searchContactFunc: (value, contacts) => {
+      dispatch(searchContactFunc(value, contacts));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactManagement);
