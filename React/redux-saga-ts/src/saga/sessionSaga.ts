@@ -1,5 +1,5 @@
 import * as types from "../constants/ActionTypes";
-import { takeEvery } from "@redux-saga/core/effects";
+import { takeEvery, delay } from "@redux-saga/core/effects";
 import { put } from "redux-saga/effects";
 import axios from "axios";
 import { userData } from "../constants/urlApi";
@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 
 function* handleLogin(action: any) {
   const user = action.user;
+ 
   yield axios.get(userData).then((response) => {
     for (const userInt of response.data) {
       if (user.username === userInt.username) {
@@ -15,11 +16,14 @@ function* handleLogin(action: any) {
           if (valid) {
             const token = userInt.token;
             window.localStorage.setItem("jwtToken", token);
-          }
+          } 
         });
+        break;
       }
     }
   });
+
+  yield delay(500);
 
   yield put({
     type: types.SET_CURRENT_USER,

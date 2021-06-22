@@ -1,7 +1,7 @@
 import { SET_CURRENT_USER, LOGIN, REGISTER } from "../constants/ActionTypes";
 
 const initialLoginState = {
-  user: { username: "", password: "", auth: false },
+  user: { username: "", password: "" },
 };
 
 export const loginReducer = (state = initialLoginState, action: any) => {

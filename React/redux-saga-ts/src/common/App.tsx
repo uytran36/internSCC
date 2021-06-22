@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "antd/dist/antd.css";
 import { connect, useSelector } from "react-redux";
 
-function App() {
+function App(props: any) {
   const token = useSelector((state: any) => state.authReducer.token);
 
   return (
@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            {token !== null ? <Home /> : <FormLogin />}
+            {token !== null || props.token !== null ? <Home /> : <FormLogin />}
           </Route>
           <Route exact path="/register">
             <FormRegister />
@@ -25,7 +25,7 @@ function App() {
 }
 
 function mapStateToProps(state: any) {
-  return { isAuthenticated: state.authReducer.isAuthenticated };
+  return { token: state.authReducer.token };
 }
 
 export default connect(mapStateToProps, null)(App);
