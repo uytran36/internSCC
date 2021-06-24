@@ -1,6 +1,10 @@
 {
-    "presets": [
-        "babel-preset-env",
-        "react"
-    ]
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [["import", { "libraryName": "antd", "style": true }]],
+  "env": {
+    "development" : {
+      "compact": false
+    }
+  },
+  "compact": true,
 }

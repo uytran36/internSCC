@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import "./App.css";
+import { Component } from "react";
 import "antd/dist/antd.css";
-import TodoNew from "./components/TodoNew";
+import TodoNew from "../components/TodoNew";
 
 class App extends Component {
   render() {
