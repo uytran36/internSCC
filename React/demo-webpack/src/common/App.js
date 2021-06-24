@@ -1,31 +1,12 @@
-import { React } from "react";
-import FormLogin from "../session/FormLogin";
-import FormRegister from "../session/FormRegister";
-import Home from "../contact/contact"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { Component } from "react";
+import "./App.css";
 import "antd/dist/antd.css";
-import { connect } from 'react-redux';
+import TodoNew from "./components/TodoNew";
 
-function App(props) {
-  const token = window.localStorage.getItem("jwtToken");
-  return (
-    <div className='App'>
-      <Router>
-        <Switch>
-          <Route exact path='/'>
-            {token || props.isAuthenticated ? <Home /> : <FormLogin />}
-          </Route>
-          <Route exact path='/register'>
-            <FormRegister />
-          </Route>
-        </Switch>
-      </Router>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return <TodoNew />;
+  }
 }
 
-function mapStateToProps(state) {
-  return { isAuthenticated: state.authReducer.isAuthenticated };
-}
-
-export default connect(mapStateToProps, null)(App);
+export default App;
