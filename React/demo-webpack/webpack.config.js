@@ -1,7 +1,6 @@
 const path = require("path");
-const fs = require("fs");
-const lessToJs = require("less-vars-to-js");
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "production",
@@ -16,6 +15,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: "react",
     }),
+    new MiniCssExtractPlugin(),
   ],
   entry: {
     bundle: "./src/index.js",
@@ -53,6 +53,10 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
