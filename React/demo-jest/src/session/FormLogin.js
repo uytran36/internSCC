@@ -1,20 +1,12 @@
-import { useDispatch } from "react-redux";
-import { Redirect, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Redirect, Link } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { login } from "./sessionActions";
 import "./FormLogin.css";
 
-interface User {
-  username: string;
-  password: string;
-}
-
-function FormLogin(props: any) {
-  const dispatch = useDispatch();
-  const onFinish = (values: User) => {
-    dispatch(login(values));
-    return <Redirect to="/" />;
+function FormLogin() {
+  const onFinish = (values) => {
+    return <Redirect to="/home" />;
   };
 
   return (
@@ -27,6 +19,7 @@ function FormLogin(props: any) {
         }}
         onFinish={onFinish}
       >
+        <div>Login</div>
         <Form.Item
           name="username"
           rules={[
@@ -47,6 +40,14 @@ function FormLogin(props: any) {
             {
               required: true,
               message: "Please input your Password!",
+            },
+            {
+              min: 6,
+              message: "Please input minimum 6 characters",
+            },
+            {
+              max: 20,
+              message: "Please input maximum 20 characters",
             },
           ]}
         >
