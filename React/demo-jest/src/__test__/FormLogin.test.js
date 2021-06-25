@@ -4,6 +4,7 @@ import Enzyme, { shallow, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import FormLogin from "../session/FormLogin";
 import { StaticRouter } from "react-router-dom";
+import { Form, Input, Button } from "antd";
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -19,7 +20,7 @@ describe("Password min 6 chars", () => {
   it("should have min 6 chars", () => {
     const wrapper = mount(
       <StaticRouter>
-        <FormLogin></FormLogin>
+        <Form></Form>
       </StaticRouter>
     );
 
