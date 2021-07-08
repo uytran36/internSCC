@@ -20,7 +20,7 @@ describe("Password min 6 chars", () => {
   it("should have min 6 chars", () => {
     const wrapper = mount(
       <StaticRouter>
-        <Form></Form>
+        <FormLogin />
       </StaticRouter>
     );
 
