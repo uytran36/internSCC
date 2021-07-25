@@ -13,7 +13,6 @@ interface User {
 
 function FormLogin() {
   const { loginWithRedirect} = useAuth0();
-  const { logout } = useAuth0();
 
   const dispatch = useDispatch();
 

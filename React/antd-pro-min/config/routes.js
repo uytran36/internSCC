@@ -45,20 +45,12 @@ export default [
   {
     name: 'Báo cáo Omnichat',
     icon: 'table',
-    path: '/reports/reportChat/countChat',
-    component: './reports/reportChat/countChat',
+    path: '/reports',
+    component: './reports',
   },
   {
     path: '/',
     redirect: '/welcome',
-  },
-  {
-    path: '/reports',
-    redirect: '/reports/reportChat/countChat',
-  },
-  {
-    path: '/reports/reportChat',
-    redirect: '/reports/reportChat/countChat',
   },
   {
     component: './404',

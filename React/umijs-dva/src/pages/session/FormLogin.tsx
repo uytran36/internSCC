@@ -1,4 +1,4 @@
-import { connect, useDispatch } from 'dva';
+import { useDispatch } from 'dva';
 import { Link, Redirect, history } from 'umi'; //cannot use
 // import { Link, Redirect } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';

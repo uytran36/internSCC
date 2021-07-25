@@ -1,7 +1,7 @@
-import Chart from './components/chart';
+import Chart from './components/temp';
 import Table from './components/table';
 
-function CountChat() {
+const CountChat = () => {
   return (
     <div>
       <Chart />
