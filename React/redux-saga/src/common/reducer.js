@@ -8,4 +8,5 @@ export default combineReducers({
   authReducer,
   contactReducer,
   // searchReducer,
+  //function first
 });

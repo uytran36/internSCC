@@ -3,7 +3,7 @@ import { takeEvery } from "@redux-saga/core/effects";
 import { put } from "redux-saga/effects";
 import axios from "axios";
 import { contactData } from "../constants/urlApi";
-
+//generator function
 function* handleFetchContact(action) {
   let contacts = [];
   yield axios

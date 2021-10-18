@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import TodoGeneral from "./TodoGeneral";
 
 class TodoOld extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     //create state
     this.state = { todoItems: [] };
 

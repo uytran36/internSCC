@@ -77,19 +77,6 @@ function EditModal(props) {
                 pattern: new RegExp("([0-9]\\s*)+"),
                 message: "please input phone num",
               },
-              // ({ getFieldValue }) => ({
-              //   validator(_, value) {
-              //     if (
-              //       getFieldValue("isEditing") === "true" ||
-              //       getFieldValue("isEditing") === "false"
-              //     ) {
-              //       return Promise.resolve();
-              //     }
-              //     return Promise.reject(
-              //       new Error("Please enter true or false")
-              //     );
-              //   },
-              // }),
             ]}
           >
             <Input defaultValue={props.todoItem.isEditing} />

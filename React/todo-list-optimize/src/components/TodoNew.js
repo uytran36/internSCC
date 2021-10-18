@@ -5,6 +5,7 @@ import { Table, Tag, Space, Button, Input, Row, Col } from "antd";
 import { EditTwoTone, DeleteTwoTone } from "@ant-design/icons";
 import EditModal from "./EditModal";
 import AddModal from "./AddModal";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function TodoNew() {
   const [todoItems, setTodo] = useState([]);
@@ -123,6 +124,7 @@ function TodoNew() {
       title: "id",
       dataIndex: "id",
       key: "id",
+      render: (item => <Link to="/paging">{item}</Link>)
     },
     {
       title: "Title",

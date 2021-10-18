@@ -5,6 +5,7 @@ import check from '../img/check.png';
 import del from '../img/delete.png';
 import PropTypes from "prop-types";
 
+
 class TodoItem extends Component {
     render() {
         const {item, onClick, onDoubleClick, onChange, onBlur, onDelete} = this.props;
